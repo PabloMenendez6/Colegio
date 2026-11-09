@@ -1,16 +1,15 @@
 package config
 
 import (
-	"database/sql"
+	"gorm.io/driver/postgres"
+
+	"gorm.io/gorm"
 )
 
-func DbConnection() (*sql.DB, error) {
-	db, err := sql.Open("pgx", "host=localhost port=5433 user=postgres password=postgres dbname=colegio_db sslmode=disable")
-	if err != nil {
-		return nil, err
-	}
+func DbConnection() (*gorm.DB, error) {
+	dns := "host=localhost port=5433 user=postgres password=postgres dbname=colegio_db sslmode=disable"
 
-	err = db.Ping()
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
